@@ -22,7 +22,11 @@ body.web #layout { height: auto; flex: 1; min-height: 0; }
   body.web .spacer { display: none; }
   body.web .conn { margin-left: auto; }
   body.web #connTxt { display: none; }
-  body.web .btn-ghost { padding: 6px 9px; }
+  body.web .btn-ghost { padding: 6px 8px; }
+  body.web #top { flex-wrap: nowrap; }
+  body.web .market-btn, body.web .stat.big .price { white-space: nowrap; }
+  body.web .stat:has(#stChange) { min-width: 0; overflow: hidden; }
+  body.web #stChange { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   body.web #handbookBtn { font-size: 0; }
   body.web #handbookBtn::before { content: '\1F4D6'; font-size: 15px; }
   body.web .market-btn { padding: 6px 9px; }
