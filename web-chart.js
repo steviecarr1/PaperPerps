@@ -2,8 +2,8 @@
 // gets these styles, and they are re-applied after app.js's own setStyles calls (colour changes etc.).
 (() => {
   const phone = matchMedia('(max-width: 820px)');
-  // The Time / Open / High / Low / Close / Volume box only shows while you hold for the crosshair.
-  const PHONE_STYLES = { candle: { tooltip: { showRule: 'follow_cross' } } };
+  // No Time / Open / High / Low / Close / Volume box on phones (Steve: not needed), not even with the crosshair.
+  const PHONE_STYLES = { candle: { tooltip: { showRule: 'none' } } };
   const init = klinecharts.init;
   klinecharts.init = (...args) => {
     const chart = init(...args);
