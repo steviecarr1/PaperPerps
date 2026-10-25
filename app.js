@@ -315,22 +315,7 @@
         { key: 'sup', title: 'Support: ', type: 'line' },
       ],
       styles: { lines: [RES, SUP].map((color) => ({ style: 'solid', smooth: false, size: 1, dashedValue: [2, 2], color })) },
-      calc: (list, indicator) => {
-        const [qual, len] = indicator.calcParams;
-        let bull = 0, bear = 0, res = null, sup = null;
-        return list.map((k, i) => {
-          let sig = 0;
-          if (i >= 4) {
-            if (k.close > list[i - 4].close) bull++;
-            if (k.close < list[i - 4].close) bear++;
-          }
-          let hh = -Infinity, ll = Infinity;
-          for (let j = Math.max(0, i - len + 1); j <= i; j++) { hh = Math.max(hh, list[j].high); ll = Math.min(ll, list[j].low); }
-          if (bull > qual && k.close < k.open && k.high >= hh) { bull = 0; sig = -1; res = k.high; }
-          if (bear > qual && k.close > k.open && k.low <= ll) { bear = 0; sig = 1; sup = k.low; }
-          return { res, sup, sig };
-        });
-      },
+      calc: (list, indicator) => Doritos.calc(list, ...indicator.calcParams), // shared with the Telegram alerts (doritos.js)
       // Step lines (one flat segment per bar) plus a small triangle on each exhaustion bar.
       draw: ({ ctx, kLineDataList, indicator, visibleRange, barSpace, xAxis, yAxis }) => {
         const r = indicator.result, half = barSpace.halfBar, tri = Math.max(3, Math.min(6, barSpace.gapBar / 2));
@@ -2171,6 +2156,7 @@
       },
       redraw: () => { if (fcOn) chart.overrideIndicator({ name: 'FORECAST', extendData: ++fcVer }, 'candle_pane'); },
     });
+    Doritos.start({ fetchCandles, fmt: (v, c) => fp(v, c) }); // Telegram alert on new Doritos (ENA 1h/4h)
     Analysis.setInterval(interval);
     loadDaily();
     setInterval(loadDaily, 30 * 60e3);

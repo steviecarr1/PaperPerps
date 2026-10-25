@@ -31,6 +31,7 @@
   }
 
   window.api = {
+    web: true, // tells desktop-only features (Doritos Telegram alerts) to stay off
     info,
     load: async () => get('pp.web.account'),
     save: async (data) => put('pp.web.account', data),
