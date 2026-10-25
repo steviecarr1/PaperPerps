@@ -1,7 +1,7 @@
 // Extra drawing tools and indicators for the Trading Chart (KLineChart v9), modeled on Crayon Charts' set.
 // Each drawing reads its colour from extendData.color so the colour picker can restyle it.
 const ChartTools = (() => {
-  const BLUE = '#5b8cff', UP = '#0ecb81', DN = '#f6465d', TXT = '#e6e9ef', FONT = 'Segoe UI';
+  const BLUE = '#5b8cff', UP = '#0ecb81', DN = '#f6465d', TXT = '#e6e9ef', FONT = 'Segoe UI, -apple-system, system-ui, Roboto, sans-serif';
   let h = { dataList: () => [], barMs: () => 6e4, equity: () => 0, coin: () => '', fp: (v) => String(v), candle: () => ({ up: UP, down: DN }) };
 
   const colorOf = (o) => o.extendData?.color || BLUE;
@@ -353,7 +353,7 @@ const ChartTools = (() => {
   }
   function drawDivergences({ ctx, bounding, indicator, visibleRange, xAxis, yAxis }) {
     const res = indicator.result || [];
-    ctx.font = '600 11px Segoe UI';
+    ctx.font = '600 11px Segoe UI, -apple-system, system-ui, Roboto, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     for (let b = visibleRange.from; b < Math.min(res.length, visibleRange.to + 60); b++) {

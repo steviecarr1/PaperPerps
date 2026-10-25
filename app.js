@@ -287,15 +287,15 @@
         // Off the visible price range (e.g. a far take profit): pin the label to the top / bottom edge instead.
         if (y < 0 || y > bounding.height) {
           const up = y < 0, ey = up ? 38 + slot * 22 : bounding.height - 12 - slot * 22; // top: below the candle info row
-          return [{ type: 'text', attrs: { x: bounding.width / 2, y: ey, text: `${up ? '▲' : '▼'} ${text} ${fp(overlay.points[0].value, c)}`, align: 'center', baseline: 'middle' }, styles: { color: '#0b0e11', backgroundColor: color, size: 11, weight: 600, family: 'Segoe UI', paddingLeft: 5, paddingRight: 5, paddingTop: 3, paddingBottom: 3, borderRadius: 2, borderSize: 0 }, ignoreEvent: true }];
+          return [{ type: 'text', attrs: { x: bounding.width / 2, y: ey, text: `${up ? '▲' : '▼'} ${text} ${fp(overlay.points[0].value, c)}`, align: 'center', baseline: 'middle' }, styles: { color: '#0b0e11', backgroundColor: color, size: 11, weight: 600, family: 'Segoe UI, -apple-system, system-ui, Roboto, sans-serif', paddingLeft: 5, paddingRight: 5, paddingTop: 3, paddingBottom: 3, borderRadius: 2, borderSize: 0 }, ignoreEvent: true }];
         }
         return [
           { type: 'line', attrs: { coordinates: [{ x: 0, y }, { x: bounding.width, y }] }, styles: { style: 'dashed', dashedValue: [5, 4], size: 1, color }, ignoreEvent: true },
-          { type: 'text', attrs: { x: bounding.width / 2, y, text, align: 'center', baseline: 'middle' }, styles: { color: '#0b0e11', backgroundColor: color, size: 11, weight: 600, family: 'Segoe UI', paddingLeft: 5, paddingRight: 5, paddingTop: 3, paddingBottom: 3, borderRadius: 2, borderSize: 0 }, ignoreEvent: true },
+          { type: 'text', attrs: { x: bounding.width / 2, y, text, align: 'center', baseline: 'middle' }, styles: { color: '#0b0e11', backgroundColor: color, size: 11, weight: 600, family: 'Segoe UI, -apple-system, system-ui, Roboto, sans-serif', paddingLeft: 5, paddingRight: 5, paddingTop: 3, paddingBottom: 3, borderRadius: 2, borderSize: 0 }, ignoreEvent: true },
         ];
       },
       createYAxisFigures: ({ coordinates, bounding, overlay }) => (bounding && (coordinates[0].y < 0 || coordinates[0].y > bounding.height) ? [] : [
-        { type: 'text', attrs: { x: 0, y: coordinates[0].y, text: fp(overlay.points[0].value), align: 'left', baseline: 'middle' }, styles: { color: '#0b0e11', backgroundColor: overlay.extendData.color, size: 11, family: 'Segoe UI', paddingLeft: 4, paddingRight: 4, paddingTop: 3, paddingBottom: 3, borderRadius: 2, borderSize: 0 }, ignoreEvent: true },
+        { type: 'text', attrs: { x: 0, y: coordinates[0].y, text: fp(overlay.points[0].value), align: 'left', baseline: 'middle' }, styles: { color: '#0b0e11', backgroundColor: overlay.extendData.color, size: 11, family: 'Segoe UI, -apple-system, system-ui, Roboto, sans-serif', paddingLeft: 4, paddingRight: 4, paddingTop: 3, paddingBottom: 3, borderRadius: 2, borderSize: 0 }, ignoreEvent: true },
       ]),
     });
   }
@@ -380,7 +380,7 @@
     window.ppChart = chart; // handles for automated checks
     window.ppDebug = { alerts: () => alerts, mids: () => mids };
     const GRID = '#1a1f28', AX = '#7d8696', TXT = '#c9ced8';
-    const FONT = 'Segoe UI';
+    const FONT = 'Segoe UI, -apple-system, system-ui, Roboto, sans-serif';
     const crossText = { backgroundColor: '#2a313d', borderColor: '#2a313d', color: TXT, family: FONT };
     chart.setStyles({
       grid: { horizontal: { color: GRID }, vertical: { color: GRID } },

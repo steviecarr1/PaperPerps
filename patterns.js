@@ -667,7 +667,7 @@ const Patterns = (() => {
         const rows = [[], [], []]; // tag collision rows above / below
         const rowsB = [[], [], []];
         const half = (barSpace?.bar ?? 6) / 2 + 2;
-        ctx.font = '600 10px Segoe UI';
+        ctx.font = '600 10px Segoe UI, -apple-system, system-ui, Roboto, sans-serif';
         ctx.textBaseline = 'middle';
         for (const m of list) {
           counts[m.id] = (counts[m.id] || 0) + 1;
@@ -709,9 +709,9 @@ const Patterns = (() => {
             ctx.fillStyle = s === 'fail' ? '#7d8696' : s === 'up' ? BIAS_COLOR.bull : s === 'down' ? BIAS_COLOR.bear : col;
             ctx.beginPath(); ctx.arc(cx2, yy, 5.5, 0, Math.PI * 2); ctx.fill();
             ctx.fillStyle = '#0b0e11';
-            ctx.font = '700 8px Segoe UI';
+            ctx.font = '700 8px Segoe UI, -apple-system, system-ui, Roboto, sans-serif';
             ctx.fillText(STATUS[s].icon, cx2, yy + 0.5);
-            ctx.font = '600 10px Segoe UI';
+            ctx.font = '600 10px Segoe UI, -apple-system, system-ui, Roboto, sans-serif';
           }
           ctx.globalAlpha = 1;
           if (!who) hits.push({ x1: Math.min(x1, cx - tw / 2), x2: Math.max(x2, cx + tw / 2), y1: Math.min(y1, ty - 7), y2: Math.max(y2, ty + 7), m, forming, time: kLineDataList[m.end]?.timestamp });

@@ -285,7 +285,7 @@ const ForecastUI = (() => {
           if (prefs.path && f.path?.length) f.path.forEach((v, k) => g.lineTo(x0 + (k + 1) * step, Y(v)));
           else g.lineTo(x1, Y(f.band.mid));
           g.stroke(); g.setLineDash([]);
-          g.font = '600 10px Segoe UI'; g.textBaseline = 'middle'; g.textAlign = 'left';
+          g.font = '600 10px Segoe UI, -apple-system, system-ui, Roboto, sans-serif'; g.textBaseline = 'middle'; g.textAlign = 'left';
           const label = `${(f.p * 100).toFixed(0)}% up`, w = g.measureText(label).width + 8;
           g.fillStyle = col; g.beginPath(); if (g.roundRect) g.roundRect(x1 + 4, endY - 7, w, 14, 3); else g.rect(x1 + 4, endY - 7, w, 14); g.fill();
           g.fillStyle = '#0b0e11'; g.fillText(label, x1 + 8, endY + 0.5);
@@ -293,7 +293,7 @@ const ForecastUI = (() => {
         // Red-folder news times inside the window: gold dashed upright line with the type on top.
         if (prefs.news && f.news?.length) {
           const ms = TF_MS[f.tf], top = bounding.top, bot = bounding.top + bounding.height;
-          g.font = '700 10px Segoe UI'; g.textAlign = 'center'; g.textBaseline = 'top';
+          g.font = '700 10px Segoe UI, -apple-system, system-ui, Roboto, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'top';
           for (const x of f.news) {
             const xx = x0 + step / 2 + ((x.t - (f.t + ms)) / ms) * step;
             g.strokeStyle = GOLD + 'cc'; g.lineWidth = 1; g.setLineDash([3, 3]);
@@ -304,7 +304,7 @@ const ForecastUI = (() => {
           }
         }
         if (prefs.levels) {
-          g.font = '600 10px Segoe UI'; g.textBaseline = 'bottom'; g.textAlign = 'right';
+          g.font = '600 10px Segoe UI, -apple-system, system-ui, Roboto, sans-serif'; g.textBaseline = 'bottom'; g.textAlign = 'right';
           for (const [v, c, t] of [[f.levels.res, RED, 'Resistance'], [f.levels.sup, GREEN, 'Support']]) {
             if (!v) continue;
             const y = Y(v);

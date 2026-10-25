@@ -101,7 +101,7 @@ const Analysis = (() => {
         const c = compute(list, who), L = prefs.layers, from = Math.max(0, visibleRange.from - 1), to = Math.min(list.length - 1, visibleRange.to);
         const X = (i) => xAxis.convertToPixel(i), Y = (v) => yAxis.convertToPixel(v), half = (barSpace?.bar ?? 6) / 2;
         g.save();
-        g.font = '600 10px Segoe UI'; g.textBaseline = 'middle';
+        g.font = '600 10px Segoe UI, -apple-system, system-ui, Roboto, sans-serif'; g.textBaseline = 'middle';
         const tag = (x, y, text, bg, fg = '#0b0e11', align = 'center') => {
           const w = g.measureText(text).width + 8, x0 = align === 'center' ? x - w / 2 : align === 'left' ? x : x - w;
           g.fillStyle = bg; rr(g, x0, y - 7, w, 14, 3); g.fill();
@@ -154,7 +154,7 @@ const Analysis = (() => {
           g.fillStyle = col + '14'; g.strokeStyle = col + 'aa'; g.lineWidth = 1; g.setLineDash([4, 3]);
           g.fillRect(x1, y1, x2 - x1, y2 - y1); g.strokeRect(x1, y1, x2 - x1, y2 - y1); g.setLineDash([]);
           const forming = r.breakAt == null || r.breakDir === 0 && r.end >= list.length - 2;
-          g.fillStyle = col; g.textAlign = 'left'; g.font = '600 10px Segoe UI';
+          g.fillStyle = col; g.textAlign = 'left'; g.font = '600 10px Segoe UI, -apple-system, system-ui, Roboto, sans-serif';
           g.fillText(forming ? 'Range (forming)' : r.name, x1 + 4, y1 - 7);
         }
         // Staircases (+ the elevator after them)
@@ -182,12 +182,12 @@ const Analysis = (() => {
           const col = e.dir > 0 ? GREEN : RED, y = Y(e.level);
           g.strokeStyle = col; g.lineWidth = 1; g.setLineDash(e.kind === 'CHoCH' ? [2, 2] : [6, 3]);
           g.beginPath(); g.moveTo(X(e.from), y); g.lineTo(X(e.i), y); g.stroke(); g.setLineDash([]);
-          g.fillStyle = col; g.textAlign = 'center'; g.font = '700 9.5px Segoe UI';
+          g.fillStyle = col; g.textAlign = 'center'; g.font = '700 9.5px Segoe UI, -apple-system, system-ui, Roboto, sans-serif';
           g.fillText(e.kind, (X(e.from) + X(e.i)) / 2, y + (e.dir > 0 ? -7 : 8));
         }
         // Swing labels
         if (L.swings) {
-          g.font = '700 9.5px Segoe UI'; g.textAlign = 'center';
+          g.font = '700 9.5px Segoe UI, -apple-system, system-ui, Roboto, sans-serif'; g.textAlign = 'center';
           for (const s of res.swings) {
             if (s.i < from || s.i > to || !s.label) continue;
             g.fillStyle = s.label === 'HH' || s.label === 'HL' ? GREEN : RED;
@@ -212,14 +212,14 @@ const Analysis = (() => {
           if (p.status === 'confirmed') {
             const tEnd = Math.min(list.length + 20, p.confirmAt + (p.end - p.start));
             g.strokeStyle = GOLD; g.beginPath(); g.moveTo(X(p.confirmAt), Y(p.target)); g.lineTo(X(tEnd), Y(p.target)); g.stroke();
-            g.fillStyle = GOLD; g.textAlign = 'left'; g.font = '600 9.5px Segoe UI'; g.fillText('Target', X(tEnd) + 3, Y(p.target));
+            g.fillStyle = GOLD; g.textAlign = 'left'; g.font = '600 9.5px Segoe UI, -apple-system, system-ui, Roboto, sans-serif'; g.fillText('Target', X(tEnd) + 3, Y(p.target));
           }
           g.setLineDash([]);
           const name = { doubleTop: 'Double Top', doubleBottom: 'Double Bottom', headShoulders: 'Head & Shoulders', invHeadShoulders: 'Inv H&S' }[p.kind];
           const st = p.status === 'confirmed' ? ' ✓' : p.status === 'invalid' ? ' ✗' : ' …';
           const gr = p.status !== 'invalid' ? gradeAt(list, Math.min(list.length - 1, p.confirmAt ?? p.end), p.dir, who).g : '';
           const apex = isHS ? p.pts[2] : p.pts[2];
-          g.font = '600 10px Segoe UI';
+          g.font = '600 10px Segoe UI, -apple-system, system-ui, Roboto, sans-serif';
           tag(X(apex.i), Y(apex.price) + (p.dir > 0 ? 22 : -22), `${gr ? gr + ' ' : ''}${name}${st}`, faded ? '#5c6370' : col, faded ? '#e6e9ef' : '#0b0e11');
           g.globalAlpha = 1;
         }
