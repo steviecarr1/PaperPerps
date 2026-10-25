@@ -1,0 +1,66 @@
+/* Phone website: charts only. Loaded after styles.css. */
+
+/* Trading, order book, positions, bot, journal and the Crayon tab stay in the desktop app. */
+body.web #bookPanel, body.web #ticket, body.web #bottom,
+body.web #botBtn, body.web #journalBtn, body.web #resetBtn, body.web .badge,
+body.web #chartTabs [data-tab="tv"], body.web #favBtn { display: none !important; }
+body.web #layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); grid-template-areas: "chart"; }
+body.web { height: 100dvh; display: flex; flex-direction: column; }
+body.web #layout { height: auto; flex: 1; min-height: 0; }
+
+@media (max-width: 820px) {
+  html, body.web { overscroll-behavior: none; -webkit-text-size-adjust: 100%; }
+
+  /* Header: market, price, 24h change, then the buttons, wrapped onto a second row when needed */
+  body.web #top { height: auto; flex-wrap: wrap; gap: 6px 8px; padding: 6px 8px; }
+  body.web .stat.big .price { font-size: 16px; }
+  body.web #stChange { font-size: 11.5px; }
+  body.web .brand { display: none; }
+  body.web .stat:not(.big) { display: none; }
+  body.web .stat:has(#stChange) { display: flex; }
+  body.web .stat:has(#stChange) label { display: none; }
+  body.web .spacer { display: none; }
+  body.web .conn { margin-left: auto; }
+  body.web #connTxt { display: none; }
+  body.web .btn-ghost { padding: 6px 9px; }
+  body.web #handbookBtn { font-size: 0; }
+  body.web #handbookBtn::before { content: '\1F4D6'; font-size: 15px; }
+  body.web .market-btn { padding: 6px 9px; }
+  body.web .caret { margin-left: 4px; }
+
+  body.web .dropdown { left: 6px; right: 6px; width: auto; top: 46px; max-height: 70dvh; }
+  body.web .mk-head, body.web .mk-row { grid-template-columns: 1.3fr 1fr .8fr; }
+  body.web .mk-head > :nth-child(4), body.web .mk-row > :nth-child(4) { display: none; }
+
+  /* Toolbar wraps onto a second row instead of squashing */
+  body.web .toolbar { flex-wrap: wrap; row-gap: 2px; padding: 2px 6px; }
+  body.web .toolbar > * { flex-shrink: 0; }
+  body.web .toolbar > .sep, body.web .toolbar > .spacer { display: none; }
+  body.web #chartTabs { display: none; }
+  body.web .ind-chips { flex-basis: 100%; order: 9; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
+  body.web .ind-chips:empty { display: none; }
+
+  /* Drawing tools: hidden by default, the pencil button in the toolbar shows them */
+  body.web .draw-tools { display: none; overflow-y: auto; }
+  body.web.draw-on .draw-tools { display: flex; }
+
+  body.web .ind-panel, body.web .pop-panel, body.web .iv-panel { position: fixed; left: 6px; right: 6px; top: auto; bottom: 6px; width: auto; max-height: 65dvh; box-sizing: border-box; overflow-y: auto; flex-wrap: wrap; }
+  body.web #modal, body.web #modal.wide { width: calc(100vw - 24px); max-height: 85dvh; overflow-y: auto; box-sizing: border-box; }
+  /* Forecast / market structure / candle pattern panels: stacked at the bottom of the chart (web-api.js moves them
+     into #webSheets); the desktop drag position is ignored. */
+  #webSheets {
+    position: absolute; left: 4px; right: 4px; bottom: 4px; max-height: 60%; z-index: 25;
+    display: flex; flex-direction: column; gap: 4px; pointer-events: none;
+  }
+  #webSheets:empty { display: none; }
+  #webSheets .cheat-panel {
+    position: static !important; width: auto !important; max-height: none !important; flex: 0 1 auto; min-height: 0;
+    background: rgb(18,22,28); pointer-events: auto;
+  }
+  #webSheets .cheat-panel .cp-body { flex: 1; overflow-y: auto; }
+  #webSheets .cp-head { cursor: default; }
+}
+
+#webDrawBtn { display: none; }
+@media (max-width: 820px) { body.web #webDrawBtn { display: inline-grid; } }
+body.web.draw-on #webDrawBtn { color: var(--accent); }

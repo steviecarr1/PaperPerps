@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0e11">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <title>PaperPerps</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="web.css">
+</head>
+<body class="web">
+  <header id="top">
+    <div class="brand"><span class="logo">&#9670;</span>PaperPerps<span class="badge">PAPER</span></div>
+    <button class="market-btn" id="marketBtn"><span id="mkCoin">BTC</span>-USD<span class="caret">&#9662;</span></button>
+    <button class="fav-btn" id="favBtn" title="Add to favorites">&#9734;</button>
+    <div class="stat big"><span id="stPrice" class="price">-</span></div>
+    <div class="stat"><label>Mark</label><span id="stMark">-</span></div>
+    <div class="stat"><label>Oracle</label><span id="stOracle">-</span></div>
+    <div class="stat"><label>24h Change</label><span id="stChange">-</span></div>
+    <div class="stat"><label>24h Volume</label><span id="stVol">-</span></div>
+    <div class="stat"><label>Open Interest</label><span id="stOI">-</span></div>
+    <div class="stat"><label>Funding / Countdown</label><span><span id="stFund">-</span> <span id="stCountdown" class="muted">-</span></span></div>
+    <div class="spacer"></div>
+    <div class="conn" id="conn"><span class="dot"></span><span id="connTxt">Connecting</span></div>
+    <button class="btn-ghost bot-btn" id="botBtn" title="Auto-trader: lets a bot trade your paper account"><i class="bot-dot"></i>&#129302; Bot</button>
+    <button class="btn-ghost" id="handbookBtn" title="Candlestick handbook: learn and practise patterns">&#128214; Handbook</button>
+    <button class="btn-ghost journal-btn" id="journalBtn" title="Trading journal">&#128211; Journal<span id="jBadge" class="badge-n" hidden></span></button>
+    <button class="btn-ghost" id="settingsBtn" title="Settings">&#9881;</button>
+    <button class="btn-ghost" id="resetBtn" title="Reset the paper account">Reset</button>
+  </header>
+
+  <div id="marketPanel" class="dropdown" hidden>
+    <input id="marketSearch" placeholder="Search markets" autocomplete="off">
+    <div class="mk-filter" id="mkFilter"><button data-f="all">All</button><button data-f="fav">&#9733; Favorites</button></div>
+    <div class="mk-head"><span>Market</span><span>Price</span><span>24h</span><span>Volume</span></div>
+    <div id="marketList"></div>
+  </div>
+
+  <div id="favBar" class="fav-bar"></div>
+
+  <main id="layout">
+    <section id="chartPanel" class="panel">
+      <div class="toolbar">
+        <div class="tabs" id="chartTabs">
+          <button data-tab="pro" class="active">Trading Chart</button>
+          <button data-tab="tv">Crayon Charts</button>
+        </div>
+        <div class="pro-only sep"></div>
+        <div class="pro-only iv-wrap"><div class="seg" id="intervals"></div><div id="ivPanel" class="iv-panel" hidden></div></div>
+        <div class="pro-only sep"></div>
+        <div class="pro-only ind-wrap"><button id="indBtn" class="ind-btn" title="Indicators"><i>&#402;x</i> Indicators &#9662;</button><div id="indPanel" class="ind-panel" hidden></div></div>
+        <div class="pro-only ind-chips" id="indChips"></div>
+        <div class="pro-only spacer"></div>
+        <div class="pro-only seg"><button id="webDrawBtn" title="Drawing tools">&#9998;</button></div>
+        <div class="pro-only seg tb-icons">
+          <button id="structBtn" title="Market structure: daily/weekly EMA context, swings, BOS/CHoCH, ranges, double tops/bottoms, head &amp; shoulders, staircases"><svg viewBox="0 0 18 18" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 14 L5 9 L8 11 L12 5 L14 7 L17 3"/><path d="M10 3 H17 V3" stroke-dasharray="2 2"/></svg></button>
+          <button id="fcBtn" title="Forecast: chance the price is higher in 12 candles (1h) / 6 candles (4h), likely range, support / resistance and your track record"><svg viewBox="0 0 18 18" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 13 L5 10 L8 11 L10 8"/><path d="M10 8 L17 3 M10 8 L17 13" stroke-dasharray="2 2"/><path d="M10 8 L17 8" opacity=".6"/></svg></button>
+          <button id="patBtn" title="Candle patterns: highlight them on the chart, with a cheat sheet"><svg viewBox="0 0 18 18" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 2v3M5 12v4M13 3v2M13 11v4"/><rect x="3" y="5" width="4" height="7" rx=".8" fill="currentColor" fill-opacity=".35"/><rect x="11" y="5" width="4" height="6" rx=".8"/></svg></button>
+          <button id="layoutBtn" title="Chart layout"></button>
+          <div class="pop-wrap"><button id="alertBtn" title="Price alerts (Alt+A over the chart sets one at that price)">&#128276;<span id="alertCount" class="badge-n" hidden></span></button>
+            <div id="alertPanel" class="pop-panel alert-panel" hidden>
+              <h4>New alert on <span id="alCoin">BTC</span></h4>
+              <div class="al-new"><input id="alPrice" inputmode="decimal" placeholder="Price"><input id="alNote" maxlength="80" placeholder="Note (optional)"><button class="primary-btn" id="alAdd">Add</button></div>
+              <p class="muted al-tip">Fires once when the price reaches it, from either side. Tip: hover the chart and press Alt+A to set one at that price.</p>
+              <div id="alertList"></div>
+            </div></div>
+          <div class="pop-wrap"><button id="treeBtn" title="Object tree: your drawings and indicators">&#9776;</button><div id="treePanel" class="pop-panel tree-panel" hidden></div></div>
+        </div>
+        <div class="pro-only seg"><button id="shotBtn" title="Screenshot (Ctrl+Shift+S)">&#128247;</button><button id="logBtn" title="Logarithmic price scale">Log</button></div>
+        <div class="pro-only seg"><button id="autoBtn" class="active" title="Auto-fit price scale (drag the chart to move freely; double-click the price axis also resets)">Auto</button></div>
+        <div class="tv-only spacer"></div>
+        <div class="tv-only seg"><button id="crayonFreeBtn" title="On: drag the Crayon chart freely up, down and sideways. Off: Crayon's normal auto-fitting price scale.">Free drag</button></div>
+      </div>
+      <div class="chart-body">
+        <div id="drawTools" class="draw-tools pro-only"></div>
+        <div id="chartGrid" class="chart-grid lay-1"><div id="kchart"></div></div>
+        <div id="tvchart" hidden></div>
+      </div>
+    </section>
+
+    <section id="bookPanel" class="panel">
+      <div class="tabs" id="bookTabs">
+        <button data-tab="book" class="active">Order Book</button>
+        <button data-tab="trades">Trades</button>
+        <button id="bookCollapse" class="collapse-btn" title="Hide order book">&#187;</button>
+      </div>
+      <button id="bookExpand" class="book-expand" title="Show order book"><span>&#171;</span>Order Book / Trades</button>
+      <div id="bookView">
+        <div class="book-head"><span>Price</span><span>Size (<span class="coinLbl">BTC</span>)</span><span>Total</span></div>
+        <div id="asks" class="levels asks"></div>
+        <div id="spread" class="spread">-</div>
+        <div id="bids" class="levels bids"></div>
+      </div>
+      <div id="tradesView" hidden>
+        <div class="book-head"><span>Price</span><span>Size (<span class="coinLbl">BTC</span>)</span><span>Time</span></div>
+        <div id="tradesList" class="levels"></div>
+      </div>
+    </section>
+
+    <aside id="ticket" class="panel">
+      <div class="side-toggle">
+        <button id="sideLong" class="active">Long</button>
+        <button id="sideShort">Short</button>
+      </div>
+      <div class="type-tabs" id="typeTabs">
+        <button data-type="market" class="active">Market</button>
+        <button data-type="limit">Limit</button>
+      </div>
+
+      <div class="kv"><span class="muted">Available</span><span id="tkAvail">-</span></div>
+      <div class="kv"><span class="muted">Current position</span><span id="tkPos">-</span></div>
+
+      <div class="field">
+        <label>Leverage <span class="muted">(Isolated)</span> <span id="levVal" class="lev-val">10x</span></label>
+        <input type="range" id="levRange" min="1" max="40" step="1" value="10">
+        <div id="levNote" class="note"></div>
+      </div>
+
+      <div class="field" id="priceField" hidden>
+        <label>Limit price (USD)</label>
+        <div class="input-wrap"><input id="priceIn" inputmode="decimal" autocomplete="off"><button id="midBtn" class="mini">Mid</button></div>
+      </div>
+
+      <div class="field">
+        <label>Size</label>
+        <div class="input-wrap"><input id="sizeIn" inputmode="decimal" placeholder="0" autocomplete="off"><button id="unitBtn" class="mini">USD</button></div>
+        <div id="sizeAlt" class="note"></div>
+      </div>
+
+      <div class="field">
+        <input type="range" id="pctRange" min="0" max="100" step="1" value="0">
+        <div class="pct-marks" id="pctMarks">
+          <button data-p="10">10%</button><button data-p="25">25%</button><button data-p="50">50%</button><button data-p="75">75%</button><button data-p="100">100%</button>
+        </div>
+      </div>
+
+      <label class="check"><input type="checkbox" id="reduceOnly"> Reduce only</label>
+      <label class="check"><input type="checkbox" id="tpslChk"> Take profit / Stop loss</label>
+      <div id="tpslFields" hidden>
+        <div class="field">
+          <label>Take profit price</label>
+          <input id="tpIn" inputmode="decimal" autocomplete="off">
+          <div id="tpHint" class="note"></div>
+        </div>
+        <div class="field">
+          <label>Stop loss price</label>
+          <input id="slIn" inputmode="decimal" autocomplete="off">
+          <div id="slHint" class="note"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Trade note <span class="muted">(saved to your journal)</span></label>
+        <textarea id="noteIn" rows="2" maxlength="500" placeholder="Why are you taking this trade? Target? Where are you wrong?"></textarea>
+      </div>
+
+      <button id="submitBtn" class="submit long">Place Long</button>
+
+      <div class="summary">
+        <div class="kv"><span class="muted">Order value</span><span id="sumValue">-</span></div>
+        <div class="kv"><span class="muted">Margin required</span><span id="sumMargin">-</span></div>
+        <div class="kv"><span class="muted">Est. liquidation price</span><span id="sumLiq">-</span></div>
+        <div class="kv"><span class="muted">Est. fee</span><span id="sumFee">-</span></div>
+      </div>
+
+      <div class="account">
+        <h4>Account</h4>
+        <div class="kv"><span class="muted">Equity</span><span id="acEquity">-</span></div>
+        <div class="kv"><span class="muted">Wallet balance</span><span id="acWallet">-</span></div>
+        <div class="kv"><span class="muted">Unrealized PnL</span><span id="acUpnl">-</span></div>
+        <div class="kv"><span class="muted">Margin in use</span><span id="acMargin">-</span></div>
+        <div class="kv"><span class="muted">Available</span><span id="acAvail">-</span></div>
+        <div class="kv"><span class="muted">Total PnL since start</span><span id="acTotal">-</span></div>
+      </div>
+    </aside>
+
+    <section id="bottom" class="panel">
+      <div id="bottomResize" class="v-resize" title="Drag to resize (double-click to reset)"></div>
+      <div class="tabs" id="bottomTabs">
+        <button data-tab="positions" class="active">Positions <span id="cntPos"></span></button>
+        <button data-tab="orders">Open Orders <span id="cntOrd"></span></button>
+        <button data-tab="fills">Trade History</button>
+        <button data-tab="closed">Closed P&amp;L</button>
+      </div>
+      <div id="bottomBody" class="table-wrap"></div>
+    </section>
+  </main>
+
+  <div id="toolFly" class="tool-fly" hidden></div>
+  <div id="ctxMenu" class="ctx-menu" hidden></div>
+  <div id="toasts"></div>
+  <div id="modalBack" hidden><div id="modal"></div></div>
+
+  <script src="web-api.js"></script>
+  <script src="vendor/klinecharts.min.js"></script>
+  <script src="feed.js"></script>
+  <script src="engine.js"></script>
+  <script src="chart-tools.js"></script>
+  <script src="journal.js"></script>
+  <script src="patterns.js"></script>
+  <script src="context.js"></script>
+  <script src="structure.js"></script>
+  <script src="stairs.js"></script>
+  <script src="analysis.js"></script>
+  <script src="forecast-model.js"></script>
+  <script src="forecast.js"></script>
+  <script src="news-calendar.js"></script>
+  <script src="forecast-ui.js"></script>
+  <script src="bot.js"></script>
+  <script src="handbook.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
