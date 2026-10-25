@@ -63,6 +63,10 @@
     const gather = () => { if (phone.matches) for (const el of body.querySelectorAll(':scope > .cheat-panel')) sheets.appendChild(el); };
     new MutationObserver(gather).observe(body, { childList: true });
     gather();
+    sheets.addEventListener('click', (e) => { // tapping a minimised pill's name opens it again
+      const head = e.target.closest('.cheat-panel.min .cp-head');
+      if (head && !e.target.closest('button')) head.querySelector('button[title="Collapse"]')?.click();
+    });
 
     touchAsMouse(document.getElementById('chartGrid'));
   });
