@@ -12,6 +12,11 @@ body.web {
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   background: var(--panel);
 }
+/* Home-screen app only: iOS gets 100dvh wrong there (leaves a gap at the bottom), so pin the page to the real
+   screen edges, and let the chart run down to just above the home bar instead of keeping its whole safe area. */
+@media (display-mode: standalone) {
+  body.web { position: fixed; inset: 0; height: auto; padding-bottom: max(0px, calc(env(safe-area-inset-bottom) - 20px)); }
+}
 body.web #layout { height: auto; flex: 1; min-height: 0; }
 
 @media (max-width: 820px) {
